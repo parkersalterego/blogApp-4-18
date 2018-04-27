@@ -16,7 +16,7 @@ app.set('host', process.env.HOST || '0.0.0.0');
 app.set('port', process.env.PORT || 8080);
 
 // routes
-// const controllers = require('./controllers/controllers');
+const controllers = require('./controllers/controllers');
 
 // logging
 app.use(logger('common', {
@@ -26,11 +26,16 @@ app.use(logger('common', {
 }));
 app.use(logger('dev'));
 
-// cors middleware
-app.use(cors());
+// parse application/json
+app.use( bodyParser.json() );
+app.use( cookieParser() );
 
-// body parser middleware
-app.use(bodyParser());
+// parse application/x-www-form-urlencoded
+app.use( bodyParser.urlencoded( { extended: false } ) );
+
+// CORS
+// This allows client applications from other domains use the API Server
+app.use(cors());
 
 // passport middleware
 // app.use(passport.initialize());
@@ -53,7 +58,7 @@ mongoose.connection.on('error', (err, next) => {
 });
 
 // route-prefix
-// app.use('/api', controllers);
+app.use('/api', controllers);
 
 // index orute
 app.use('/', (req, res, next) => {
