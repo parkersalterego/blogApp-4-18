@@ -1,0 +1,27 @@
+.nav {
+    height: 50px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+
+.nav-ul {
+    color: #fff;
+    font-size: 24px;
+    float: right;
+    margin: 13px, 0, 0, 0;
+}
+
+.nav-li {
+    display: inline;
+    margin-right: 15px;
+    font-family: 'Gugi', display;
+    text-shadow: 1px 1px 1px rgba(242, 242, 242, 1);
+}
+
+.nav-li:hover {
+    cursor: pointer;
+    border-bottom: 1.5px solid #fff;
+}

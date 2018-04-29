@@ -1,1 +1,26 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* FONTS */
+@import url('https://fonts.googleapis.com/css?family=Gugi');
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #e6f7ff;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    flex: 1 0 auto;
+}
+
+.footer {
+    flex-shrink: 0;
+}
