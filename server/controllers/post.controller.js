@@ -46,7 +46,6 @@ class PostController {
 
     async updatePost(req, res, next) {
         try{
-            console.log('hitting');
             const updatedPost = await Post.findOneAndUpdate({'_id' : req.params._id, 'is_deleted' : false}, req.body, {'new' : true})
                 res.status(200).json(updatedPost);
         } catch(err) {
