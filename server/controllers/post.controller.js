@@ -14,7 +14,7 @@ class PostController {
 
     async getPosts(req, res, next) {
        try {
-           const posts = await Post.find()
+           const posts = await Post.find({'is_deleted' : false})
             res.status(200).json(posts)
        } catch (err) {
            next(err);
