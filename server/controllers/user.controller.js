@@ -1,6 +1,8 @@
 const express = require('express');
 const User = require('../models/user.model');
 const bcrypt = require('bcrypt');
+const crypto = require('crypto');
+const jwt = require('jsonwebtoken');
 
 const SALT_ROUNDS = 13;
 const STAMP_ROUNDS = 8;
@@ -31,7 +33,23 @@ class UserController {
     async loginUser(req, res, next) {
         try {
             const user = await User.findOne({'email' : req.body.email, 'is_deleted' : false});
-            res.json(user);
+            if(user) {
+                const result = await(bcrypt.compare(req.body.password, user.password));
+                if(result) {
+                    const accessToken = await UserController.generateAccessToken(user);
+                    const refreshToken = await UserController.generateRefreshToken(user);
+                    UserController.setRefreshTokenCookie(res, refreshToken);
+                    res.status(200)
+                       .json({
+                            refreshToken: refreshToken,
+                            accessToken: accessToken
+                       });
+                } else {
+                    res.status(403).json('incorrect email or password');
+                }
+            } else {
+                res.status(403).json('incorrect email or password');
+            }
         } catch(err) {
             next(err);
         }
@@ -82,7 +100,30 @@ class UserController {
         } catch(err) {
             next(err)
         }
-        
+    }
+
+// ============================= UTILITY METHODS =============================
+
+    static async generateAccessToken(user) {
+        return new Promise((resolve, reject) => {
+            jwt.sign({
+                id: user._id,
+                username: user.username,
+                secStamp: user.secStamp
+            },
+            Process.env.JWT_SECRET, {expiresIn : '30min'},
+            (err, token) => {
+                if (err) return reject(err);
+                resolve(token);
+            });
+        });
+    } 
+
+    static async generateRefreshToken(user) {
+        const refreshToken = user._id.toString() + '.' + crypto.randomBytes(40)
+            .toString('hex');
+        const updatedUser = await User.findOneAndUpdate(user._id, {refreshToken: refreshToken});
+        return updatedUser;
     }
 
 }
