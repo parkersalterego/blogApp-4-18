@@ -1,14 +1,21 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const jwt = require('express-jwt');
+const express = require('express');
 const logger = require('morgan');
 const cors = require('cors');
-const fs = require('fs');
 const path = require('path');
+const fs = require('fs');
 const app = express();
 
 require('dotenv').config();
+
+const insecureRoutes = [
+    '/',
+    '/api/users/login',
+    '/api/users/register'
+]
 
 // ENVIRONMENT
 app.set('env', process.env.NODE_ENV || 'development');
@@ -31,17 +38,46 @@ app.use( bodyParser.json() );
 app.use( cookieParser() );
 
 // parse application/x-www-form-urlencoded
-app.use( bodyParser.urlencoded( { extended: false } ) );
+app.use( bodyParser.urlencoded({ extended: false }));
 
 // CORS
 // This allows client applications from other domains use the API Server
-app.use(cors());
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    next();
+});
 
-// passport middleware
-// app.use(passport.initialize());
-// app.use(passport.session());
+// JWT AUTH
+app.use(jwt({secret: process.env.JWT_SECRET})
+.unless({
+    path: insecureRoutes
+}));
 
-// require('./config/passport')(passport);
+app.use( async ( req, res, next ) => {
+    if( req.method === 'OPTIONS' || isInsecurePage(req.path) ) {
+        return next();
+    } 
+    try {
+        const authHeader = req.get( 'Authorization' );
+        const token = authHeader ? authHeader.split( ' ' )[ 1 ] : null;
+        const tokenData = JSON.parse( atob( token.split( '.' )[ 1 ] ) );
+        if ( !tokenData.id ) {
+            throw new Error();
+        }
+        const user = await User.findById( tokenData.id );
+        if ( !user || user.secStamp !== tokenData.secStamp ) {
+            throw new Error();
+        }
+        req.user = user;
+        next();
+    } catch( e ) {
+        let err = new Error( 'Token Invalid' );
+        err.name = 'UnauthorizedError';
+        next( err );
+    }
+});
 
 // static folder
 app.use(express.static(path.join(__dirname, 'public')));
@@ -98,5 +134,14 @@ if(app.get('env') === 'production') {
 app.listen(app.get('port'), () => {
     console.log('REST API Listening on Port ' + app.get('port'));
 });
+
+function isInsecurePage(loc) {
+    for (let i = 0; i < insecureRoutes.length; i++) {
+        if (loc.indexOf(insecureRoutes[i]) >= 0) {
+            return true;
+        }
+    }
+    return false;
+}
 
 module.exports = app;
