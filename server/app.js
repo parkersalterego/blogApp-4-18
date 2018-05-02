@@ -11,6 +11,12 @@ const app = express();
 
 require('dotenv').config();
 
+const insecureRoutes = [
+    '/',
+    '/api/users/login',
+    '/api/users/register'
+]
+
 // ENVIRONMENT
 app.set('env', process.env.NODE_ENV || 'development');
 app.set('host', process.env.HOST || '0.0.0.0');
@@ -36,14 +42,21 @@ app.use( bodyParser.urlencoded({ extended: false }));
 
 // CORS
 // This allows client applications from other domains use the API Server
-app.use(cors());
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    next();
+});
 
 // JWT AUTH
-app.use(jwt({secret: process.env.JWT_SECRET}));
+app.use(jwt({secret: process.env.JWT_SECRET})
+.unless({
+    path: insecureRoutes
+}));
 
 app.use( async ( req, res, next ) => {
-    console.log( req.method );
-    if( req.method === 'OPTIONS' ) {
+    if( req.method === 'OPTIONS' || isInsecurePage(req.path) ) {
         return next();
     } 
     try {
@@ -121,5 +134,14 @@ if(app.get('env') === 'production') {
 app.listen(app.get('port'), () => {
     console.log('REST API Listening on Port ' + app.get('port'));
 });
+
+function isInsecurePage(loc) {
+    for (let i = 0; i < insecureRoutes.length; i++) {
+        if (loc.indexOf(insecureRoutes[i]) >= 0) {
+            return true;
+        }
+    }
+    return false;
+}
 
 module.exports = app;

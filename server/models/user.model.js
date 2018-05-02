@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
-    userName: String,
+    username: String,
     email: String,
     password: String,
     secStamp: String,
+    refreshToken: String,
     is_deleted: {
         type: Boolean,
         default: false
