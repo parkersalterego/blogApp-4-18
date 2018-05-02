@@ -3,3 +3,17 @@
     <h1 class="title">Blog App</h1>
   </div>
 </div>
+<div class="login">
+  <form class="login-form" onsubmit="loginUser(); return false">
+    <div class="email">
+        <label class="login-label" for="email">Email</label>
+        <input class="login-input" type="text" name="email" required>
+    </div>
+    <div class="password">
+        <label class="login-label" for="Password">Password</label>
+        <input class="login-input" type="password" name="password" required>
+    </div>
+    <input class="submit" type="submit">
+  </form>
+  <p class="create-account">Don't have an account? <a routerLink='/register'>Click Here</a></p>
+</div>
