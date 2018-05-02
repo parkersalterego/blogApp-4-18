@@ -1,0 +1,11 @@
+.register-container {
+  height: calc(100vh - 50px);
+}
+
+.register-form {
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+}
+
+
+
+

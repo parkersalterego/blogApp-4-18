@@ -4,13 +4,15 @@ import { RouterModule, Routes } from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 
+import { PostsService } from './services/posts.service';
+import { UserService } from './services/user.service';
+
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { NavComponent } from './components/nav/nav.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { PostsComponent } from './components/posts/posts.component';
-
-import { PostsService } from './services/posts.service';
+import { RegisterComponent } from './components/register/register.component';
 
 const appRoutes: Routes = [
   {
@@ -20,8 +22,12 @@ const appRoutes: Routes = [
   {
     path: 'posts',
     component: PostsComponent
+  },
+  {
+    path: 'register',
+    component: RegisterComponent
   }
-]
+];
 
 @NgModule({
   declarations: [
@@ -29,7 +35,8 @@ const appRoutes: Routes = [
     HomeComponent,
     NavComponent,
     FooterComponent,
-    PostsComponent
+    PostsComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +45,8 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes)
   ],
   providers: [
-    PostsService
+    PostsService,
+    UserService
   ],
   bootstrap: [AppComponent]
 })

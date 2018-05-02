@@ -7,6 +7,12 @@
     z-index: 2;
 }
 
+.fa-home {
+  color: #fff;
+  font-size: 20px;
+  margin: 10px 0px 0px 10px;  
+}
+
 .nav-ul {
     color: #fff;
     font-size: 24px;
@@ -25,3 +31,4 @@
     cursor: pointer;
     border-bottom: 1.5px solid #fff;
 }
+
