@@ -14,8 +14,8 @@
     </div>
     <input class="user-form-row-four user-log-btn" type="submit" value="Register">
   </form>
-  <div class="error" *ngIf="message" [ngStyle]="{'background-color': userService.getMessageBackgroundColor(message)}">
-    <p class="error-message">
+  <div class="message-box" *ngIf="message" [ngStyle]="{'background-color': getMessageBackgroundColor(message)}">
+    <p class="message">
       {{message.text}}
     </p>
   </div>
