@@ -1,17 +1,22 @@
 <div class="register-container user-log-container">
-  <form class="register-form user-log-form" onsubmit="registerUser(); return false">
+  <form class="register-form user-log-form" (submit)="onRegisterSubmit()">
     <div class="user-form-row-one">
       <label class="user-log-label" for="username">Username</label>
-      <input class="user-log-input" type="text" name="username">
+      <input class="user-log-input form-control" type="text" name="username" [(ngModel)]="username" required>
     </div>
     <div class="user-form-row-two">
       <label class="user-log-label" for="email">Email</label>
-      <input class="user-log-input" type="email" name="email">
+      <input class="user-log-input form-control" type="email" name="email" [(ngModel)]="email" required>
     </div>
     <div class="user-form-row-three">
       <label class="user-log-label" for="password">Password</label>
-      <input class="user-log-input" type="password" name="password">
+      <input class="user-log-input form-control" type="password" name="password" [(ngModel)]="password" required>
     </div>
-    <input class="user-form-row-four user-log-btn" type="submit">
+    <input class="user-form-row-four user-log-btn" type="submit" value="Register">
   </form>
+  <div class="error" *ngIf="message" [ngStyle]="{'background-color': userService.getMessageBackgroundColor(message)}">
+    <p class="error-message">
+      {{message.text}}
+    </p>
+  </div>
 </div>

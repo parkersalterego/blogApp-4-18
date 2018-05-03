@@ -4,16 +4,16 @@
   </div>
 </div>
 <div class="login-container user-log-container">
-  <form class="login-form user-log-form" onsubmit="loginUser(); return false">
+  <form class="login-form user-log-form" (submit)="onLoginSubmit()">
     <div class="user-form-row-one">
         <label class="user-log-label" for="email">Email</label>
-        <input class="user-log-input" type="email" name="email" required>
+        <input class="user-log-input form-control" type="email" name="email" [(ngModel)]="email" required>
     </div>
     <div class="user-form-row-two">
         <label class="user-log-label" for="Password">Password</label>
-        <input class="user-log-input" type="password" name="password" required>
+        <input class="user-log-input form-control" type="password" name="password" [(ngModel)]="password" required>
     </div>
-    <input class="user-form-row-three user-log-btn" type="submit">
+    <input class="user-form-row-three user-log-btn" type="submit" value="Login">
   </form>
   <p class="create-account">Don't have an account? <a routerLink='/register'>Click Here</a></p>
 </div>

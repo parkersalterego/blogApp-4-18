@@ -43,7 +43,7 @@ app.use( bodyParser.urlencoded({ extended: false }));
 // CORS
 // This allows client applications from other domains use the API Server
 app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
+    res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     next();
