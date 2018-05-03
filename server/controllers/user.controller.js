@@ -77,7 +77,7 @@ class UserController {
             const checkEmail = await User.findOne({'email' : req.body.email, 'is_deleted' : false})
             if (checkEmail !== null) {
                 
-                res.status(403).json({'Error' : 'An account already exists with the provided email or username'});
+                res.status(403).json('An account already exists with the provided email or username');
             } else {
                 const hash = await bcrypt.hash(req.body.password, SALT_ROUNDS);
                 req.body.password = hash;
