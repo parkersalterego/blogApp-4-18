@@ -1,9 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { RoutingModule } from './routing.module';
+import { FlashMessagesModule } from 'angular2-flash-messages';
 
 import { PostsService } from './services/posts.service';
 import { UserService } from './services/user.service';
@@ -14,21 +15,9 @@ import { NavComponent } from './components/nav/nav.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { PostsComponent } from './components/posts/posts.component';
 import { RegisterComponent } from './components/register/register.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
+import { LoginComponent } from './components/login/login.component';
 
-const appRoutes: Routes = [
-  {
-    path: '',
-    component: HomeComponent
-  },
-  {
-    path: 'posts',
-    component: PostsComponent
-  },
-  {
-    path: 'register',
-    component: RegisterComponent
-  }
-];
 
 @NgModule({
   declarations: [
@@ -37,19 +26,24 @@ const appRoutes: Routes = [
     NavComponent,
     FooterComponent,
     PostsComponent,
-    RegisterComponent
+    RegisterComponent,
+    NotFoundComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
+    FlashMessagesModule.forRoot(),
     HttpClientModule,
-    RouterModule.forRoot(appRoutes)
+    RoutingModule
   ],
   providers: [
     PostsService,
     UserService
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [
+    AppComponent
+  ]
 })
 export class AppModule { }
