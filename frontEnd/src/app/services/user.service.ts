@@ -14,6 +14,7 @@ export class UserService {
   registerUser(user) {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
+    headers.append('With-Credentials', 'true');
     return this.http.post(`${environment.api}/users/register`, user, {headers: headers})
       .map(res => res.json());
   }
@@ -22,7 +23,7 @@ export class UserService {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
     return this.http.post(`${environment.api}/users/login`, user, {headers: headers})
-      .map(res => res.json());
+      .map(res => console.log(res.json()));
   }
 
 }
