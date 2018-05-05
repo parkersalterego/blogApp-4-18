@@ -28,13 +28,13 @@ const appRoutes: Routes = [
     component: LoginComponent
   },
   {
-    path: '**'
+    path: '**',
     component: NotFoundComponent
   },
 ];
 
 @NgModule({
-  exports: [RouterModule]
+  exports: [RouterModule],
   imports: [
     RouterModule.forRoot(appRoutes)
   ],

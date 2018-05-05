@@ -1,3 +1,19 @@
-<p>
-  login works!
-</p>
+<div class="log-reg-container">
+  <flash-messages class="fm-log-reg"></flash-messages>
+  <form class="log-reg-form" (submit)="onSubmit()">
+
+    <div class="form-group">
+      <label class="form-group__label" for="email">Email</label>
+      <input class="form-group__input" name="email" type="email" [(ngModel)]="email" required>
+    </div>
+
+    <div class="form-group">
+      <label class="form-group__label" for="password">Password</label>
+      <input class="form-group__input" name="password" type="password" [(ngModel)]="password" required>
+    </div>
+
+    <input class="submit-btn" type="submit" value="Login">
+
+  </form>
+  <p class="link-register">Don't Have An Account <a routerLink="/register">Click Here</a></p>
+</div>
