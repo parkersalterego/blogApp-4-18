@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes, CanActivate } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
@@ -10,6 +10,8 @@ import { RegisterComponent } from './components/register/register.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { LoginComponent } from './components/login/login.component';
 
+import { AuthGuard } from './guards/auth.guard';
+
 const appRoutes: Routes = [
   {
     path: '',
@@ -17,7 +19,8 @@ const appRoutes: Routes = [
   },
   {
     path: 'posts',
-    component: PostsComponent
+    component: PostsComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'register',
@@ -38,6 +41,8 @@ const appRoutes: Routes = [
   imports: [
     RouterModule.forRoot(appRoutes)
   ],
-  providers: []
+  providers: [
+    AuthGuard,
+  ]
 })
 export class RoutingModule { }

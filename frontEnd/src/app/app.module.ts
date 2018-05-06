@@ -5,7 +5,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { RoutingModule } from './routing.module';
 import { FlashMessagesModule } from 'angular2-flash-messages';
+import { JwtHelper } from 'angular2-jwt';
 
+import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { PostsService } from './services/posts.service';
 import { UserService } from './services/user.service';
 
@@ -40,7 +42,9 @@ import { LoginComponent } from './components/login/login.component';
   ],
   providers: [
     PostsService,
-    UserService
+    UserService,
+    CookieService,
+    JwtHelper
   ],
   bootstrap: [
     AppComponent
