@@ -1,22 +1,24 @@
-<div class="register-container user-log-container">
-  <form class="register-form user-log-form" (submit)="onRegisterSubmit()">
-    <div class="user-form-row-one">
-      <label class="user-log-label" for="username">Username</label>
-      <input class="user-log-input form-control" type="text" name="username" [(ngModel)]="username" required>
-    </div>
-    <div class="user-form-row-two">
-      <label class="user-log-label" for="email">Email</label>
-      <input class="user-log-input form-control" type="email" name="email" [(ngModel)]="email" required>
-    </div>
-    <div class="user-form-row-three">
-      <label class="user-log-label" for="password">Password</label>
-      <input class="user-log-input form-control" type="password" name="password" [(ngModel)]="password" required>
-    </div>
-    <input class="user-form-row-four user-log-btn" type="submit" value="Register">
-  </form>
-  <div class="message-box" *ngIf="message" [ngStyle]="{'background-color': getMessageBackgroundColor(message)}">
-    <p class="message">
-      {{message.text}}
-    </p>
+<div class="log-reg-container">
+  <flash-messages class="fm-log-reg"></flash-messages>
+    <form class="log-reg-form" (submit)="onSubmit()">
+
+      <div class="form-group">
+        <label class="form-group__label" for="username">Username</label>
+        <input class="form-group__input" name="username" type="username" [(ngModel)]="username" required>
+      </div>
+  
+      <div class="form-group">
+        <label class="form-group__label" for="email">Email</label>
+        <input class="form-group__input" name="email" type="email" [(ngModel)]="email" required>
+      </div>
+  
+      <div class="form-group">
+        <label class="form-group__label" for="password">Password</label>
+        <input class="form-group__input" name="password" type="password" [(ngModel)]="password" required>
+      </div>
+  
+      <input class="submit-btn" type="submit" value="Register">
+  
+    </form>
+  
   </div>
-</div>
