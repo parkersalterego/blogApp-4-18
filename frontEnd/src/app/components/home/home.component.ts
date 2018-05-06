@@ -15,6 +15,12 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    console.log(this.userService.user);
+    if (this.userService.user === undefined) {
+      this.router.navigate(['/login']);
+    } else {
+      this.userService.authCheck();
+    }
   }
 
 

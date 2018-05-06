@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import { UserService } from '../../services/user.service';
 import { FlashMessagesService } from 'angular2-flash-messages';
+import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 @Component({
   selector: 'app-login',
@@ -15,6 +16,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
               private userService: UserService,
+              private cookieService: CookieService,
               private flashMessage: FlashMessagesService,
               private router: Router
   ) { }
@@ -31,6 +33,9 @@ export class LoginComponent implements OnInit {
     this.userService.loginUser({email: this.email, password: this.password})
       .subscribe(data => {
         if (data) {
+          console.log(data);
+          this.cookieService.put('refToken', data.refreshToken);
+          localStorage.setItem('authToken', JSON.stringify(data.accessToken));
           this.flashMessage.show('Success: Logged In', {cssClass: 'alert-success', timeout: 2000});
           setTimeout(() => {
             this.router.navigate(['/']);
