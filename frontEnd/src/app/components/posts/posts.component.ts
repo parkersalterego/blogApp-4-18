@@ -12,7 +12,7 @@ export class PostsComponent implements OnInit {
   constructor(private postsService: PostsService) { }
 
   ngOnInit() {
-
+    this.getPosts();
   }
 
   getPosts() {
