@@ -8,6 +8,7 @@ import { UserService } from '../../services/user.service';
   styleUrls: ['./nav.component.css']
 })
 export class NavComponent implements OnInit {
+  showNav: boolean;
 
   constructor(
               private router: Router,
@@ -15,10 +16,16 @@ export class NavComponent implements OnInit {
             ) { }
 
   ngOnInit() {
+    // this.router.events.subscribe((event) => {
+    //   if (event instanceof NavigationStart) {
+    //     this.showNav = event.url === '/login' || event.url === '/register' ? false : true;
+    //   }
+    // });
   }
 
   onLogoutClick() {
     this.userService.logoutUser();
+    this.userService.authCheck();
     this.router.navigate(['/login']);
   }
 

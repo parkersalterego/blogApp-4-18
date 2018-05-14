@@ -9,8 +9,17 @@
 
     <div class="form-group">
       <label class="form-group__label" for="password">Password</label>
-      <input class="form-group__input" name="password" type="password" [(ngModel)]="password" required>
+      <input 
+        class="form-group__input" 
+        name="password" 
+        type="password"
+        [(ngModel)]="password"
+        minlength="8" 
+        required
+      >
     </div>
+
+    <p><input type="checkbox" name="remember" [(ngModel)]="remember"> Remember Me</p>
 
     <input class="submit-btn" type="submit" value="Login">
 

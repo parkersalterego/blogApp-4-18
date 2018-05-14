@@ -15,6 +15,7 @@ import { JwtHelper } from 'angular2-jwt';
 export class LoginComponent implements OnInit {
   email: string;
   password: string;
+  remember: Boolean = false;
 
   constructor(
               private userService: UserService,
@@ -25,17 +26,21 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.userService.authCheck();
   }
 
   onSubmit() {
     this.userService.loginUser({email: this.email, password: this.password})
       .subscribe(data => {
         if (data) {
+          // set refToken cookie
           this.cookieService.put('refToken', data.refreshToken);
+          // set authToken
           localStorage.setItem('authToken', JSON.stringify(data.accessToken));
-          this.flashMessage.show('Success: Logged In', {cssClass: 'alert-success', timeout: 2000});
+          // verify tokens
           this.userService.authCheck();
+          // show message
+          this.flashMessage.show('Success: Logged In', {cssClass: 'alert-success', timeout: 2000});
+          // re-route
           setTimeout(() => {
             this.router.navigate(['/']);
           }, 2000);

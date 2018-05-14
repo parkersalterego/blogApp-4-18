@@ -17,9 +17,12 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class UserService {
+  canNavigate: boolean;
   authToken: String;
   user: User;
-  willActivate: boolean;
+
+
+
 
   constructor(
               private http: Http,
@@ -45,11 +48,11 @@ export class UserService {
   logoutUser() {
     this.user = undefined;
     localStorage.clear();
-    this.willActivate = false;
 
   }
 
-  getUser(id, token) {
+  getUser(token) {
+    const id = this.jwtHelper.decodeToken(token).id;
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', 'Bearer ' + token.split('"')[1]);
@@ -60,31 +63,34 @@ export class UserService {
   authCheck() {
     const authToken = localStorage.getItem('authToken');
     const refToken = this.cookieService.get('refToken');
+    // check for both auth and refresh token
     if (authToken && refToken) {
-      const tokenInfo = this.jwtHelper.decodeToken(authToken);
-      const headers = new Headers();
-      this.getUser(tokenInfo.id, authToken)
+      this.getUser(authToken)
         .subscribe(user => {
+          // check that refresh token is valid
           if (user.refreshToken === refToken) {
-            this.user = user;
-            this.willActivate = true;
-            if (this.router.url === '/login') {
-              this.router.navigate(['/']);
-              return true;
+            // check that tokens are not expired
+            if (this.tokenExpCheck(authToken)) {
+              this.canNavigate = true;
             } else {
-              return true;
+              // session expired
+              this.router.navigate(['/login']);
+              this.canNavigate = false;
             }
           } else {
-            // @TODO blacklist refToken
-            return false;
+            // @TODO -- blacklist refToken
+            this.router.navigate(['/login']);
+            this.canNavigate = false;
           }
         },
         err => {
           console.log(err);
-          return false;
+          this.router.navigate(['/login']);
+          this.canNavigate = false;
         });
     } else {
-      return false;
+      this.router.navigate(['/login']);
+      this.canNavigate = false;
     }
   }
 
@@ -92,3 +98,5 @@ export class UserService {
     return (new Date(this.jwtHelper.getTokenExpirationDate(token)).getTime() - Date.now()) ? true : false;
   }
 }
+
+
