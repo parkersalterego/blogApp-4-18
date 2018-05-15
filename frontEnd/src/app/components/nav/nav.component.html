@@ -1,7 +1,7 @@
-<div *ngIf="this.userService.user !== undefined" class="nav">
+<div class="nav" >
     <a routerLink='/'><i class="fas fa-home"></i></a>
     <ul class="nav-ul">
-        <li class="nav-li" [routerLink]="['/posts']">Posts</li>
-        <li class="nav-li" (click)="onLogoutClick()">Logout</li>
+        <li routerLink='/posts' class="nav-li">Posts</li>
+        <li (click)="onLogoutClick()" class="nav-li">Logout</li>
     </ul>
 </div>

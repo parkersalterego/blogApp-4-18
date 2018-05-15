@@ -5,3 +5,7 @@
 .register-form {
   grid-template-rows: 1fr 1fr 1fr 1fr;
 }
+
+.submit-btn {
+  margin-top: 30px;
+}

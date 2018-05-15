@@ -9,17 +9,14 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
+
   constructor(
               private userService: UserService,
               private router: Router
   ) { }
 
   ngOnInit() {
-    if (this.userService.user === undefined) {
-      this.router.navigate(['/login']);
-    } else {
-      this.userService.authCheck();
-    }
+
   }
 
 
